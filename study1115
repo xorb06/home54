@@ -1,0 +1,15 @@
+import requests#pip install로 다운로드 받은부분
+from bs4 import BeautifulSoup as bs #얘도 마찬가지
+req = requests.get('http://www.dowellcomputer.com/main.jsp%27) # 웹데이터 받아옴
+
+#print(req)
+html = req.text # 받아온 웹데이터의 텍스트를 html이라는 변수에 '문자열로' 저장
+#print(html)
+soup = bs(html,'html.parser') # 문자열을 html형식으로 변환하여서(bs이용) soup에 저장
+
+links = soup.select('td > a') # td 다음에 a가 나오는 모든 웹데이터를 가지고옴
+#print(links)
+for link in links: #이 for문 이해하기 힘들수 있음. 배열을 참조하는 for문 사용방식 알아보기
+    if link.has_attr('href'): # link의 속성중에 href속성이있다면
+        if link.get('href').find('notice') != -1: # href 내용중에 notice라는 내용이 있다면
+            print(link.text)
